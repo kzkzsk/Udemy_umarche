@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Shop;
 use Closure;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UploadImageRequest;
 
 
 class ShopController extends Controller
@@ -53,7 +54,7 @@ class ShopController extends Controller
         return view('owner.shops.edit', compact('shop'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(UploadImageRequest $request, string $id)
     {
         $imageFile = $request->image;
         if( !is_null($imageFile) && $imageFile->isValid() ) {
