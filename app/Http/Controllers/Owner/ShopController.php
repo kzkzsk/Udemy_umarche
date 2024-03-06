@@ -9,6 +9,7 @@ use App\Models\Shop;
 use Closure;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UploadImageRequest;
+use App\Services\ImageService;
 
 
 class ShopController extends Controller
@@ -59,8 +60,9 @@ class ShopController extends Controller
         $imageFile = $request->image;
         if( !is_null($imageFile) && $imageFile->isValid() ) {
             // dd($imageFile);
-            Storage::putFile('public/shops/', $imageFile); // リサイズなしの場合
+            // Storage::putFile('public/shops/', $imageFile); // リサイズなしの場合
 
+            // interventionImageを使用したリサイズ処理（動作しないため不使用）
             // $fileName = uniqid((rand().'_'));
             // $extension = $imageFile->extension();
             // $fileNameToStore = $fileName . '.' . $extension;
@@ -68,6 +70,8 @@ class ShopController extends Controller
 
             // dd($imageFile, $resizedImage);
             // Storage::put('public/shops' . $fileNameToStore, $resizedImage);
+
+            $file = ImageService::upload($imageFile, 'shops');
         }
 
         return redirect()->route('owner.shops.index');
